@@ -1,16 +1,11 @@
 package com.springboot.blog.controller;
 
-import java.util.List;
-
 import com.springboot.blog.payload.PostResponse;
 import com.springboot.blog.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.service.annotation.DeleteExchange;
 
 import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.service.PostService;
@@ -53,7 +48,7 @@ public class PostController {
 	}
 
 	// Delete Post by id rest api
-	@DeleteExchange("/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deletePost(@PathVariable long id) {
 		postService.deletePost(id);
 		return ResponseEntity.ok("Post with id " + id + " deleted successfully");
