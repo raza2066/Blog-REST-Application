@@ -5,7 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-
-public interface CommentRepository extends JpaRepository<Comment,Long> {
+//Repository Layer extends jpa repository to automate db Crud operations
+public interface CommentRepository extends JpaRepository<Comment, Long> {
+    //method to find comment by postId
     List<Comment> findByPostId(long postId);
 }

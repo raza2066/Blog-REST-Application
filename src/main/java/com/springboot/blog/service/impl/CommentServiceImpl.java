@@ -26,11 +26,10 @@ public class CommentServiceImpl implements Commentservice {
     @Autowired
     private PostRepository postRepository;
 
+    //Method to create comment in a given post using postId
     @Override
     public CommentDTO createComment(long postId, CommentDTO commentDTO) {
         Comment comment = DTOtoEntity(commentDTO);
-
-
         // get post by id from database, if not available throw resource not found exception
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
 
@@ -38,37 +37,24 @@ public class CommentServiceImpl implements Commentservice {
         return EntitytoDTO(commentRepository.save(comment));
     }
 
+    //Method to fetch comment for a given post using postId
     @Override
     public List<CommentDTO> getCommentsByPostId(long postId) {
         List<Comment> comments = commentRepository.findByPostId(postId);
-        return comments.stream().map(comment->EntitytoDTO(comment)).collect(Collectors.toList());
+        return comments.stream().map(comment -> EntitytoDTO(comment)).collect(Collectors.toList());
     }
 
+    //Method to fetch comment by commentId
     @Override
     public CommentDTO getCommentById(long postId, long commentId) {
-        // get post by id from database, if not available throw resource not found exception
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentId));
-
-        if(!comment.getPost().getId().equals(post.getId())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not Belong to the post");
-        }
-
+        Comment comment = retrieveComment(postId, commentId);
         return EntitytoDTO(comment);
     }
 
+    //Method to update comment
     @Override
     public CommentDTO updateComment(long postId, long commentId, CommentDTO commentDTO) {
-        // get post by id from database, if not available throw resource not found exception
-        Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-
-        Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentId));
-
-        if(!comment.getPost().getId().equals(post.getId())){
-            throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not Belong to the post");
-        }
-
+        Comment comment = retrieveComment(postId, commentId);
         comment.setName(commentDTO.getName());
         comment.setEmail(commentDTO.getEmail());
         comment.setBody(commentDTO.getBody());
@@ -78,23 +64,32 @@ public class CommentServiceImpl implements Commentservice {
         return EntitytoDTO(updatedComment);
     }
 
+
+    //method to delete comment
     @Override
     public void deleteComment(long postId, long commentId) {
+        commentRepository.delete(retrieveComment(postId, commentId));
+    }
+
+
+    //method to check whether the respective post and comments are present in the database and return the comment
+    private Comment retrieveComment(long postId, long commentId) {
+        // get post by id from database, if not available throw resource not found exception
         Post post = postRepository.findById(postId).orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
-
+        // get comment by id from database, if not available throw resource not found exception
         Comment comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentId));
-
-        if(!comment.getPost().getId().equals(post.getId())){
+        //Check if comment belong to respective post,If not throw Bad Request Exception
+        if (!comment.getPost().getId().equals(post.getId())) {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not Belong to the post");
         }
-
-        commentRepository.delete(comment);
+        return comment;
     }
 
 
     // Method to convert DTO to Entity
     private Comment DTOtoEntity(CommentDTO commentDTO) {
         Comment newComment = new Comment();
+        // copying properties
         newComment.setName(commentDTO.getName());
         newComment.setEmail(commentDTO.getEmail());
         newComment.setBody(commentDTO.getBody());
@@ -104,6 +99,7 @@ public class CommentServiceImpl implements Commentservice {
     // Method to convert Entity to DTO
     private CommentDTO EntitytoDTO(Comment comment) {
         CommentDTO commentDTO = new CommentDTO();
+        // copying properties
         commentDTO.setId(comment.getId());
         commentDTO.setName(comment.getName());
         commentDTO.setEmail(comment.getEmail());

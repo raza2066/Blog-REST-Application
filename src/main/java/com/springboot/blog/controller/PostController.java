@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.service.PostService;
-
+//Controller For Post Resources
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {
@@ -17,13 +17,13 @@ public class PostController {
 	@Autowired
 	private PostService postService;
 
-	// Create Blog Post rest api
+	//Rest api Method to Create Post
 	@PostMapping
 	public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
 		return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
 	}
 
-	// Get all Posts rest api
+	//Rest api Method to  Get all Posts
 	//http://localhost:8080/api/posts?pageNo=<x>&pageSize=<y>&sortBy=<str>&sortDir=<asc or desc>
 	@GetMapping
 	public PostResponse getAllPosts(
@@ -35,19 +35,19 @@ public class PostController {
 		return postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
 	}
 
-	// Get Post by id rest api
+	//Rest api Method to  Get Post by id
 	@GetMapping("/{id}")
 	public ResponseEntity<PostDTO> getPostsById(@PathVariable long id) {
 		return ResponseEntity.ok(postService.getPostById(id));
 	}
 
-	// Update Post by id rest api
+	//Rest api Method to  Update Post by id
 	@PutMapping("/{id}")
 	public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO, @PathVariable long id) {
 		return ResponseEntity.ok(postService.updatePost(postDTO, id));
 	}
 
-	// Delete Post by id rest api
+	//Rest api Method to  Delete Post by id
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deletePost(@PathVariable long id) {
 		postService.deletePost(id);

@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 public class PostDTO {
 	//DTO Object for "post" to communicate with client
-
 	private long id;
 	private String title;
 	private String description;

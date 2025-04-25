@@ -4,10 +4,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @SuppressWarnings("serial")
+//Exception class to handle Resource not found exception
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
 
-	//Exception class to handle Resource not found exception
 	private String resourceName;
 	private String fieldName;
 	private long fieldValue;

@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostResponse {
+    //DTO object to send data to client using pagination and sorting
     private List<PostDTO> content;
     private int pageNo;
     private int pageSize;
