@@ -18,9 +18,11 @@ import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.repository.PostRepository;
 import com.springboot.blog.service.PostService;
 
+
+//Implementation class for PostService Interface
 @Service
 public class PostServiceImpl implements PostService {
-
+	//Autowiring PostRepository to use jpa methods
 	@Autowired
 	private PostRepository postRepository;
 
@@ -93,21 +95,19 @@ public class PostServiceImpl implements PostService {
 	// Method to convert DTO to Entity
 	private Post DTOtoEntity(PostDTO postDTO) {
 		Post newpost = new Post();
-//		newpost.setTitle(postDTO.getTitle());
-//		newpost.setDescription(postDTO.getDescription());
-//		newpost.setContent(postDTO.getContent());
-		BeanUtils.copyProperties(postDTO, newpost);
+		newpost.setTitle(postDTO.getTitle());
+		newpost.setDescription(postDTO.getDescription());
+		newpost.setContent(postDTO.getContent());
 		return newpost;
 	}
 
 	// Method to convert Entity to DTO
 	private PostDTO EntitytoDTO(Post post) {
 		PostDTO postDTO = new PostDTO();
-//		postResponse.setTitle(post.getTitle());
-//		postResponse.setDescription(post.getDescription());
-//		postResponse.setContent(post.getContent());
-//		postResponse.setId(post.getId());
-		BeanUtils.copyProperties(post, postDTO);
+		postDTO.setTitle(post.getTitle());
+		postDTO.setDescription(post.getDescription());
+		postDTO.setContent(post.getContent());
+		postDTO.setId(post.getId());
 		return postDTO;
 	}
 }
