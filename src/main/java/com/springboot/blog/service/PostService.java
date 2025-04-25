@@ -5,7 +5,7 @@ import java.util.List;
 import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.payload.PostResponse;
 
-//Service class for Post table crud Methods
+//Service Interface for Post table crud Methods
 public interface PostService {
 	//Create new Post
 	PostDTO createPost(PostDTO postDTO);
