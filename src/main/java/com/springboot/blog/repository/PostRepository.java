@@ -7,5 +7,5 @@ import com.springboot.blog.entity.Post;
 
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
-
+    //Repository Layer extends jpa repository to automate db Crud operations
 }

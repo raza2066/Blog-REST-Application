@@ -1,0 +1,13 @@
+--Sample data for table posts
+
+--INSERT INTO `posts` (`content`, `description`, `title`) VALUES
+--('Spring Boot simplifies Java development with its auto-configuration and starter dependencies.', 'Introduction to Spring Boot framework.', 'Getting Started with Spring Boot'),
+--('Java Streams allow for functional-style operations on collections of objects.', 'A guide to Java Stream API basics.', 'Understanding Java Streams'),
+--('Docker helps in containerizing applications for consistent deployment.', 'Overview of Docker in modern DevOps.', 'Why Use Docker for Development'),
+--('RESTful APIs are a common architectural style for web services.', 'Basics of building RESTful APIs.', 'Creating Your First REST API'),
+--('Hibernate ORM simplifies database interactions in Java applications.', 'A beginner\'s guide to Hibernate ORM.', 'Using Hibernate with Java'),
+--('Thymeleaf is a modern server-side Java template engine.', 'Intro to Thymeleaf for building dynamic views.', 'Building Web UIs with Thymeleaf'),
+--('Spring Security handles authentication and authorization in Spring apps.', 'Exploring the features of Spring Security.', 'Securing Applications with Spring Security'),
+--('JUnit is a widely used testing framework for Java.', 'Learn how to write unit tests in Java.', 'Unit Testing with JUnit'),
+--('React is a powerful JavaScript library for building UIs.', 'Why React is popular for frontend development.', 'Introduction to React for Java Developers'),
+--('Kafka is a distributed streaming platform for building real-time data pipelines.', 'What is Apache Kafka and how it works.', 'Real-Time Data with Apache Kafka');
