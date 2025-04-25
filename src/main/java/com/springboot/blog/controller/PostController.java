@@ -1,18 +1,11 @@
 package com.springboot.blog.controller;
 
-import java.util.List;
-
+import com.springboot.blog.payload.PostResponse;
+import com.springboot.blog.utils.AppConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.service.annotation.DeleteExchange;
+import org.springframework.web.bind.annotation.*;
 
 import com.springboot.blog.payload.PostDTO;
 import com.springboot.blog.service.PostService;
@@ -27,13 +20,19 @@ public class PostController {
 	// Create Blog Post rest api
 	@PostMapping
 	public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO) {
-		return new ResponseEntity<PostDTO>(postService.createpost(postDTO), HttpStatus.CREATED);
+		return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
 	}
 
 	// Get all Posts rest api
+	//http://localhost:8080/api/posts?pageNo=<x>&pageSize=<y>&sortBy=<str>&sortDir=<asc or desc>
 	@GetMapping
-	public List<PostDTO> getAllPosts() {
-		return postService.getAllPosts();
+	public PostResponse getAllPosts(
+			@RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRRECTION, required = false) String sortDir
+	) {
+		return postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
 	}
 
 	// Get Post by id rest api
@@ -49,7 +48,7 @@ public class PostController {
 	}
 
 	// Delete Post by id rest api
-	@DeleteExchange("/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deletePost(@PathVariable long id) {
 		postService.deletePost(id);
 		return ResponseEntity.ok("Post with id " + id + " deleted successfully");

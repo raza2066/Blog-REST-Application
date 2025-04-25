@@ -11,10 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+//lombok annotation to reduce boilerplate code
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 
+//Entity for "post" to communicate with database
 @Entity
 @Table(name = "posts", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
 public class Post {

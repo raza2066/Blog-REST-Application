@@ -1,5 +1,7 @@
 --CREATE DATABASE IF NOT EXISTS myblog;
 --
+--posts Table Structure
+--
 --CREATE TABLE `posts` (
 --  `id` bigint NOT NULL AUTO_INCREMENT,
 --  `content` varchar(255) NOT NULL,
