@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService {
 
 	// Method to fetch posts by id
 	@Override
-	public PostDTO getPostById(long id) {
+	public PostDTO getPostById(Long id) {
 		// get post by id from database, if not available throw resource not found
 		// exception
 		Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
@@ -74,7 +74,7 @@ public class PostServiceImpl implements PostService {
 
 	// Method to Update post using id
 	@Override
-	public PostDTO updatePost(PostDTO postDTO, long id) {
+	public PostDTO updatePost(PostDTO postDTO, Long id) {
 		// get post by id from database, if not available throw resource not found
 		// exception
 		Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));
@@ -88,7 +88,7 @@ public class PostServiceImpl implements PostService {
 
 	// Method to delete post using id
 	@Override
-	public void deletePost(long id) {
+	public void deletePost(Long id) {
 		// get post by id from database, if not available throw resource not found
 		// exception
 		Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id));

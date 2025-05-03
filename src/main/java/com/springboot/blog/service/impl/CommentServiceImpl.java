@@ -30,7 +30,7 @@ public class CommentServiceImpl implements Commentservice {
 
 	// Method to create comment in a given post using postId
 	@Override
-	public CommentDTO createComment(long postId, CommentDTO commentDTO) {
+	public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
 		Comment comment = DTOtoEntity(commentDTO);
 		// get post by id from database, if not available throw resource not found
 		// exception
@@ -43,21 +43,21 @@ public class CommentServiceImpl implements Commentservice {
 
 	// Method to fetch comment for a given post using postId
 	@Override
-	public List<CommentDTO> getCommentsByPostId(long postId) {
+	public List<CommentDTO> getCommentsByPostId(Long postId) {
 		List<Comment> comments = commentRepository.findByPostId(postId);
 		return comments.stream().map(comment -> EntitytoDTO(comment)).collect(Collectors.toList());
 	}
 
 	// Method to fetch comment by commentId
 	@Override
-	public CommentDTO getCommentById(long postId, long commentId) {
+	public CommentDTO getCommentById(Long postId, Long commentId) {
 		Comment comment = retrieveComment(postId, commentId);
 		return EntitytoDTO(comment);
 	}
 
 	// Method to update comment
 	@Override
-	public CommentDTO updateComment(long postId, long commentId, CommentDTO commentDTO) {
+	public CommentDTO updateComment(Long postId, Long commentId, CommentDTO commentDTO) {
 		Comment comment = retrieveComment(postId, commentId);
 		comment.setName(commentDTO.getName());
 		comment.setEmail(commentDTO.getEmail());
@@ -70,13 +70,13 @@ public class CommentServiceImpl implements Commentservice {
 
 	// method to delete comment
 	@Override
-	public void deleteComment(long postId, long commentId) {
+	public void deleteComment(Long postId, Long commentId) {
 		commentRepository.delete(retrieveComment(postId, commentId));
 	}
 
 	// method to check whether the respective post and comments are present in the
 	// database and return the comment
-	private Comment retrieveComment(long postId, long commentId) {
+	private Comment retrieveComment(Long postId, Long commentId) {
 		// get post by id from database, if not available throw resource not found
 		// exception
 		Post post = postRepository.findById(postId)
@@ -85,9 +85,9 @@ public class CommentServiceImpl implements Commentservice {
 		// exception
 		Comment comment = commentRepository.findById(commentId)
 				.orElseThrow(() -> new ResourceNotFoundException("Comment", "id", commentId));
-		// Check if comment belong to respective post,If not throw Bad Request Exception
+		// Check if comment beLong to respective post,If not throw Bad Request Exception
 		if (!comment.getPost().getId().equals(post.getId())) {
-			throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not Belong to the post");
+			throw new BlogApiException(HttpStatus.BAD_REQUEST, "Comment does not BeLong to the post");
 		}
 		return comment;
 	}

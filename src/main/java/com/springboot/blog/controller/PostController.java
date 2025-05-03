@@ -50,21 +50,21 @@ public class PostController {
 
 	// Rest api Method to Get Post by id
 	@GetMapping("/{id}")
-	public ResponseEntity<PostDTO> getPostsById(@PathVariable long id) {
+	public ResponseEntity<PostDTO> getPostsById(@PathVariable Long id) {
 		return ResponseEntity.ok(postService.getPostById(id));
 	}
 
 	// Rest api Method to Update Post by id
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{id}")
-	public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO, @PathVariable long id) {
+	public ResponseEntity<PostDTO> updatePost(@Valid @RequestBody PostDTO postDTO, @PathVariable Long id) {
 		return ResponseEntity.ok(postService.updatePost(postDTO, id));
 	}
 
 	// Rest api Method to Delete Post by id
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deletePost(@PathVariable long id) {
+	public ResponseEntity<String> deletePost(@PathVariable Long id) {
 		postService.deletePost(id);
 		return ResponseEntity.ok("Post with id " + id + " deleted successfully");
 	}

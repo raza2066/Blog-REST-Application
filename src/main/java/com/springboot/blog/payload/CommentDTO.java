@@ -10,7 +10,7 @@ import lombok.Data;
 
 public class CommentDTO {
 	// DTO Object for "comment" to communicate with client
-	private long id;
+	private Long id;
 
 	// name should not be null or empty
 	@NotEmpty(message = "Name should not be null or empty")

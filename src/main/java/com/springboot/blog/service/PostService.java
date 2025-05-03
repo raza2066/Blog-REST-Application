@@ -12,9 +12,9 @@ public interface PostService {
 	//Fetch all Posts
 	PostResponse getAllPosts(int pageNo, int pageSize, String sortBy, String sortDir);
 	//Fetch Post by id
-	PostDTO getPostById(long id);
+	PostDTO getPostById(Long id);
 	//Update Post by id
-	PostDTO updatePost(PostDTO postDTO, long id);
+	PostDTO updatePost(PostDTO postDTO, Long id);
 	//Delete Post by id
-	void deletePost(long id);
+	void deletePost(Long id);
 }

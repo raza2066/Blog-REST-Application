@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class PostDTO {
 	// DTO Object for "post" to communicate with client
-	private long id;
+	private Long id;
 
 	// Title Should not be Empty or Null
 	// Title should have atleast 2 characters

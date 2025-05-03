@@ -31,27 +31,27 @@ public class CommentController {
 	// Rest api Method to create comment
 	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/{postId}/comments")
-	public ResponseEntity<CommentDTO> createComment(@PathVariable long postId,
+	public ResponseEntity<CommentDTO> createComment(@PathVariable Long postId,
 			@Valid @RequestBody CommentDTO commentDTO) {
 		return new ResponseEntity<>(commentservice.createComment(postId, commentDTO), HttpStatus.CREATED);
 	}
 
 	// Rest api Method to get comments by postId
 	@GetMapping("/{postId}/comments")
-	public List<CommentDTO> getCommentsByPostId(@PathVariable long postId) {
+	public List<CommentDTO> getCommentsByPostId(@PathVariable Long postId) {
 		return commentservice.getCommentsByPostId(postId);
 	}
 
 	// Rest api Method to get comment by commentId
 	@GetMapping("/{postId}/comments/{commentId}")
-	public ResponseEntity<CommentDTO> getCommentsById(@PathVariable long postId, @PathVariable long commentId) {
+	public ResponseEntity<CommentDTO> getCommentsById(@PathVariable Long postId, @PathVariable Long commentId) {
 		return new ResponseEntity<>(commentservice.getCommentById(postId, commentId), HttpStatus.OK);
 	}
 
 	// Rest api Method to update comment
 	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/{postId}/comments/{commentId}")
-	public ResponseEntity<CommentDTO> updateComment(@PathVariable long postId, @PathVariable long commentId,
+	public ResponseEntity<CommentDTO> updateComment(@PathVariable Long postId, @PathVariable Long commentId,
 			@Valid @RequestBody CommentDTO commentDTO) {
 		return new ResponseEntity<>(commentservice.updateComment(postId, commentId, commentDTO), HttpStatus.OK);
 	}
@@ -60,7 +60,7 @@ public class CommentController {
 
 	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/{postId}/comments/{commentId}")
-	public ResponseEntity<String> deleteComment(@PathVariable long postId, @PathVariable long commentId) {
+	public ResponseEntity<String> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
 		commentservice.deleteComment(postId, commentId);
 		return new ResponseEntity<>("Comment deleted with postId " + postId + " and commentId " + commentId,
 				HttpStatus.OK);
