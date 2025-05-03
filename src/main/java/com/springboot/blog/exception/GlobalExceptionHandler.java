@@ -21,47 +21,47 @@ import com.springboot.blog.payload.ErrorDetails;
 @ControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-	// Handler method to handle Resource not found Exception
-	@ExceptionHandler(ResourceNotFoundException.class)
-	public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
-			WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-	}
+    // Handler method to handle Resource not found Exception
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handleResourceNotFoundException(ResourceNotFoundException exception,
+                                                                        WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
+    }
 
-	// Handler method to handle Bad Request Exception
-	@ExceptionHandler(BlogApiException.class)
-	public ResponseEntity<ErrorDetails> handleBlogApiException(BlogApiException exception, WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
-	}
+    // Handler method to handle Bad Request Exception
+    @ExceptionHandler(BlogApiException.class)
+    public ResponseEntity<ErrorDetails> handleBlogApiException(BlogApiException exception, WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
 
-	// Handler method to handle Bad Request Exception
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception, WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+    // Handler method to handle Bad Request Exception
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception, WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
-	// Handler method for validation
-	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-			HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+    // Handler method for validation
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
-		Map<String, String> errors = new HashMap<String, String>();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldName = ((FieldError) error).getField();
-			String message = error.getDefaultMessage();
-			errors.put(fieldName, message);
-		});
+        Map<String, String> errors = new HashMap<String, String>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.put(fieldName, message);
+        });
 
-		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-	}
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
 
-	// alternative approach to above method
+    // alternative approach to above method
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
 //	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
 //			WebRequest webRequest) {
@@ -75,13 +75,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 //	}
 
-	// Handler method to handle Access Denied Exception
-	@ExceptionHandler(AuthorizationDeniedException.class)
-	public ResponseEntity<ErrorDetails> handleAuthorizationDeniedException(AuthorizationDeniedException exception,
-			WebRequest webRequest) {
-		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
-				webRequest.getDescription(false));
-		return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
-	}
+    // Handler method to handle Access Denied Exception
+
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity<ErrorDetails> handleAuthorizationDeniedException(AuthorizationDeniedException exception,
+                                                                           WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
+                webRequest.getDescription(false));
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+    }
 
 }

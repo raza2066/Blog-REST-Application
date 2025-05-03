@@ -9,22 +9,22 @@ import lombok.Data;
 @Data
 
 public class CommentDTO {
-	// DTO Object for "comment" to communicate with client
-	private long id;
+    // DTO Object for "comment" to communicate with client
+    private Long id;
 
-	// name should not be null or empty
-	@NotEmpty(message = "Name should not be null or empty")
-	private String name;
+    // name should not be null or empty
+    @NotEmpty(message = "Name should not be null or empty")
+    private String name;
 
-	// email should not be null or empty
-	// email field validation
-	@NotEmpty(message = "Email should not be null or empty")
-	@Email
-	private String email;
+    // email should not be null or empty
+    // email field validation
+    @NotEmpty(message = "Email should not be null or empty")
+    @Email
+    private String email;
 
-	// body should not be null or empty
-	// body must contain minimum 10 characters
-	@NotEmpty
-	@Size(min = 10, message = "body must contain minimum 10 characters")
-	private String body;
+    // body should not be null or empty
+    // body must contain minimum 10 characters
+    @NotEmpty
+    @Size(min = 10, message = "body must contain minimum 10 characters")
+    private String body;
 }
