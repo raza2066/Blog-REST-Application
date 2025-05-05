@@ -31,28 +31,28 @@ public class CommentServiceImpl implements Commentservice {
 	// Method to create comment in a given post using postId
 	@Override
 	public CommentDTO createComment(Long postId, CommentDTO commentDTO) {
-		Comment comment = DTOtoEntity(commentDTO);
+		Comment comment = mapToEntity(commentDTO);
 		// get post by id from database, if not available throw resource not found
 		// exception
 		Post post = postRepository.findById(postId)
 				.orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
 
 		comment.setPost(post);
-		return EntitytoDTO(commentRepository.save(comment));
+		return mapToDTO(commentRepository.save(comment));
 	}
 
 	// Method to fetch comment for a given post using postId
 	@Override
 	public List<CommentDTO> getCommentsByPostId(Long postId) {
 		List<Comment> comments = commentRepository.findByPostId(postId);
-		return comments.stream().map(comment -> EntitytoDTO(comment)).collect(Collectors.toList());
+		return comments.stream().map(comment -> mapToDTO(comment)).collect(Collectors.toList());
 	}
 
 	// Method to fetch comment by commentId
 	@Override
 	public CommentDTO getCommentById(Long postId, Long commentId) {
 		Comment comment = retrieveComment(postId, commentId);
-		return EntitytoDTO(comment);
+		return mapToDTO(comment);
 	}
 
 	// Method to update comment
@@ -65,7 +65,7 @@ public class CommentServiceImpl implements Commentservice {
 
 		Comment updatedComment = commentRepository.save(comment);
 
-		return EntitytoDTO(updatedComment);
+		return mapToDTO(updatedComment);
 	}
 
 	// method to delete comment
@@ -93,7 +93,7 @@ public class CommentServiceImpl implements Commentservice {
 	}
 
 	// Method to convert DTO to Entity
-	private Comment DTOtoEntity(CommentDTO commentDTO) {
+	private Comment mapToEntity(CommentDTO commentDTO) {
 		// copying properties
 		Comment newComment = modelMapper.map(commentDTO, Comment.class);
 //		newComment.setName(commentDTO.getName());
@@ -103,7 +103,7 @@ public class CommentServiceImpl implements Commentservice {
 	}
 
 	// Method to convert Entity to DTO
-	private CommentDTO EntitytoDTO(Comment comment) {
+	private CommentDTO mapToDTO(Comment comment) {
 		// copying properties
 		CommentDTO commentDTO = modelMapper.map(comment, CommentDTO.class);
 //		commentDTO.setId(comment.getId());

@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 
 //Controller For Comment Resources
 @RestController
-@RequestMapping("/api/posts/")
+@RequestMapping("/api/posts")
 public class CommentController {
 
 	@Autowired

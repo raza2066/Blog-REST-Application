@@ -21,6 +21,8 @@ import com.springboot.blog.utils.AppConstants;
 
 import jakarta.validation.Valid;
 
+import java.util.List;
+
 //Controller For Post Resources
 @RestController
 @RequestMapping("/api/posts")
@@ -67,5 +69,11 @@ public class PostController {
 	public ResponseEntity<String> deletePost(@PathVariable Long id) {
 		postService.deletePost(id);
 		return ResponseEntity.ok("Post with id " + id + " deleted successfully");
+	}
+
+	@GetMapping("/category/{id}")
+	public ResponseEntity<List<PostDTO>> getPostsByCategory(@PathVariable Long id){
+		List<PostDTO> posts = postService.getPostsByCategoryId(id);
+		return ResponseEntity.ok(posts);
 	}
 }
