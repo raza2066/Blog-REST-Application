@@ -2,6 +2,8 @@ package com.springboot.blog.config;
 
 import com.springboot.blog.security.JwtAuthenticationEntryPoint;
 import com.springboot.blog.security.JwtAuthenticationFilter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableMethodSecurity
+@SecurityScheme(
+		name = "Bear Authentication",
+		type = SecuritySchemeType.HTTP,
+		bearerFormat = "JWT",
+		scheme = "bearer"
+)
 public class SecurityConfig {
 			//  flow of spring security database authentication
 			//	Client Request → Security Filter Chain →
@@ -54,6 +62,8 @@ public class SecurityConfig {
 									//				authorize.anyRequest().authenticated()
 											authorize.requestMatchers(HttpMethod.GET, "/api/**").permitAll()
 													.requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
+													.requestMatchers(HttpMethod.GET, "/swagger-ui/**").permitAll()
+													.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").permitAll()
 													.anyRequest().authenticated()
 				)
 //				.httpBasic(Customizer.withDefaults()

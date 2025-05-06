@@ -1,13 +1,17 @@
 package com.springboot.blog.payload;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 //lombok annotation to reduce boilerplate code
 import lombok.Data;
 
-@Data
 
+@Schema(
+		description = "CommentDTO model Information"
+)
+@Data
 public class CommentDTO {
 	// DTO Object for "comment" to communicate with client
 	private Long id;
