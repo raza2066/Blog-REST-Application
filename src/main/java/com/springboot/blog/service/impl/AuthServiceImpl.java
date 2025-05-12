@@ -21,13 +21,14 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
 
+//Implementation class for AuthService Interface
 @Service
 public class AuthServiceImpl implements AuthService {
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtTokenProvider jwtTokenProvider;
+    private AuthenticationManager authenticationManager;  // Used for authenticating the user
+    private UserRepository userRepository;  // Repository for User entity
+    private RoleRepository roleRepository;  // Repository for Role entity
+    private PasswordEncoder passwordEncoder;  // Password encoding to store hashed passwords
+    private JwtTokenProvider jwtTokenProvider;  // Provider to generate JWT token for authenticated users
 
     @Autowired
     public AuthServiceImpl(AuthenticationManager authenticationManager,
@@ -40,43 +41,59 @@ public class AuthServiceImpl implements AuthService {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenProvider = jwtTokenProvider;
-
     }
 
+    // =================================================================================================================================
+
+    // Method to handle user login and return a JWT token
     @Override
     public String login(LoginDTO loginDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(),
-                                                                                    loginDTO.getPassword()));
+        // Authenticate the user using username or email and password
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword())
+        );
 
+        // Set the authentication context for the current session
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // Generate and return JWT token
         String token = jwtTokenProvider.generateToken(authentication);
         return token;
     }
 
+    // =================================================================================================================================
+
+    // Method to handle user registration
     @Override
     public String register(RegisterDTO registerDTO) {
 
-        //Check if username already exists in database
-        if(userRepository.existsByUsername(registerDTO.getUsername())){
+        // Check if username already exists in the database
+        if (userRepository.existsByUsername(registerDTO.getUsername())) {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Username Already exists");
         }
-        //Check if Email already exists in database
-        if(userRepository.existsByEmail(registerDTO.getEmail())){
+
+        // Check if email already exists in the database
+        if (userRepository.existsByEmail(registerDTO.getEmail())) {
             throw new BlogApiException(HttpStatus.BAD_REQUEST, "Email Already exists");
         }
 
+        // Create a new user object from the registerDTO data
         User user = new User();
         user.setName(registerDTO.getName());
         user.setUsername(registerDTO.getUsername());
         user.setEmail(registerDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));  // Encode password before saving
 
+        // Assign roles to the user
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(("ROLE_USER")).get();
+        Role userRole = roleRepository.findByName("ROLE_USER").get();  // Get default user role from the repository
         roles.add(userRole);
         user.setRoles(roles);
 
+        // Save the new user to the database
         userRepository.save(user);
+
+        // Return success message after successful registration
         return "User registered Successfully";
     }
 }

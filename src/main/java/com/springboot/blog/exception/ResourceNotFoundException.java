@@ -8,10 +8,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
 public class ResourceNotFoundException extends RuntimeException {
 
-	//Exception class to handle Resource not found exception
 	private String resourceName;
 	private String fieldName;
 	private Long fieldValue;
+
+//	=================================================================================================================================
 
 	//constructor to call superclass(RuntimeException) with parameterized string
 	public ResourceNotFoundException(String resourceName, String fieldName, Long fieldValue) {
@@ -21,6 +22,9 @@ public class ResourceNotFoundException extends RuntimeException {
 		this.fieldValue = fieldValue;
 	}
 
+//	=================================================================================================================================
+
+	//Getters
 	public String getResourceName() {
 		return resourceName;
 	}

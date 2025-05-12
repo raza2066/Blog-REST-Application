@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Bean;
 				url = "https://github.com/raza2066/Blog-REST-Application.git"
 		)
 )
-public class BlogRestApplication {
+public class BlogRestApplication{
 
 	@Bean
 	public ModelMapper modelMapper() {

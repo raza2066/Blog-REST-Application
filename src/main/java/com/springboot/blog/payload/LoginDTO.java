@@ -16,5 +16,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class LoginDTO {
     private String usernameOrEmail;
-    private String Password;
+    private String password;
 }

@@ -18,26 +18,38 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter // Generates getters for all fields
+@Setter // Generates setters
+@NoArgsConstructor // Generates no-args constructor
+@AllArgsConstructor // Generates all-args constructor
 
-@Entity
-@Table(name = "users")
+@Entity // Marks this class as a JPA entity
+@Table(name = "users") // Maps to the "users" table in the database
 public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Id // Primary key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generated ID
 	private Long id;
-	private String name;
-	@Column(nullable = false, unique = true)
+
+	private String name; // Name of the user
+
+	@Column(nullable = false, unique = true) // Cannot be null and must be unique
 	private String username;
-	@Column(nullable = false, unique = true)
+
+	@Column(nullable = false, unique = true) // Cannot be null and must be unique
 	private String email;
-	@Column(nullable = false)
-	private String password;
+
+	@Column(nullable = false) // Cannot be null
+	private String password; // Encrypted password stored here
 
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-	private Set<Role> roles;
+	// Many users can have many roles; roles are loaded immediately (EAGER)
+	@JoinTable(
+			name = "user_roles", // Join table name
+			joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+			// Maps this entity's ID (user_id) in the join table
+			inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
+			// Maps the Role entity's ID (role_id) in the join table
+	)
+	private Set<Role> roles; // Set of roles associated with the user
 }

@@ -30,7 +30,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
 	}
 
-	// Handler method to handle Bad Request Exception
+//	=================================================================================================================================
+
+	// Handler method to handle Blog API Exceptions
 	@ExceptionHandler(BlogApiException.class)
 	public ResponseEntity<ErrorDetails> handleBlogApiException(BlogApiException exception, WebRequest webRequest) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
@@ -38,13 +40,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
-	// Handler method to handle Bad Request Exception
+//	=================================================================================================================================
+
+	// Handler method to handle Global Exceptions
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorDetails> handleGlobalException(Exception exception, WebRequest webRequest) {
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), exception.getMessage(),
 				webRequest.getDescription(false));
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+
+//	=================================================================================================================================
 
 	// Handler method for validation
 	@Override
@@ -61,6 +67,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 	}
 
+
 	// alternative approach to above method
 //	@ExceptionHandler(MethodArgumentNotValidException.class)
 //	public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
@@ -74,6 +81,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 //
 //		return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
 //	}
+
+//	=================================================================================================================================
 
 	// Handler method to handle Access Denied Exception
 	@ExceptionHandler(AuthorizationDeniedException.class)

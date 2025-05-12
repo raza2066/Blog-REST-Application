@@ -5,6 +5,7 @@ import java.util.List;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,92 +24,105 @@ import com.springboot.blog.service.Commentservice;
 
 import jakarta.validation.Valid;
 
-//Controller For Comment Resources
-@RestController
-@RequestMapping("/api/posts")
+
+// Controller For Comment Resources
+@RestController // Marks this class as a RESTful web controller
+@RequestMapping("/api/posts") // Base path for all endpoints related to posts and their comments
+@Tag(
+		name = "CRUD REST APIs for Comment Resources" // Swagger grouping for documentation
+)
 public class CommentController {
 
 	@Autowired
-	private Commentservice commentservice;
+	private Commentservice commentservice; // Injects the Commentservice to handle business logic
 
-	// Rest api Method to create comment
+//	=================================================================================================================================
+
+	// Create comment REST API
 	@Operation(
-			summary = "createComment REST API",
-			description = "Create new Comments to Post using Post Id"
+			summary = "createComment REST API", // Short description for Swagger
+			description = "Create new Comments to Post using Post Id" // Detailed Swagger description
 	)
 	@ApiResponse(
 			responseCode = "201",
-			description = "Http Status 201 CREATED"
+			description = "Http Status 201 CREATED" // Expected response status
 	)
-	@SecurityRequirement(name = "Bear Authentication")
-	@PreAuthorize("hasRole('ADMIN')")
-	@PostMapping("/{postId}/comments")
+	@SecurityRequirement(name = "Bear Authentication") // JWT-based security requirement
+	@PreAuthorize("hasRole('ADMIN')") // Only users with ADMIN role can create comments
+	@PostMapping("/{postId}/comments") // POST request to create a comment under a specific post
 	public ResponseEntity<CommentDTO> createComment(@PathVariable Long postId,
-			@Valid @RequestBody CommentDTO commentDTO) {
-		return new ResponseEntity<>(commentservice.createComment(postId, commentDTO), HttpStatus.CREATED);
+													@Valid @RequestBody CommentDTO commentDTO) {
+		return new ResponseEntity<>(commentservice.createComment(postId, commentDTO), HttpStatus.CREATED); // Returns created comment with 201 status
 	}
 
-	// Rest api Method to get comments by postId
+//	=================================================================================================================================
+
+	// Get comments by postId REST API
 	@Operation(
-			summary = "getCommentsByPostId REST API",
-			description = "Fetch Comments from Database using Post Id"
+			summary = "getCommentsByPostId REST API", // Summary for Swagger UI
+			description = "Fetch Comments from Database using Post Id" // Explains the endpoint
 	)
 	@ApiResponse(
 			responseCode = "200",
-			description = "Http Status 200 SUCCESS"
+			description = "Http Status 200 SUCCESS" // Status indicating successful retrieval
 	)
-	@GetMapping("/{postId}/comments")
+	@GetMapping("/{postId}/comments") // GET request to fetch all comments for a specific post
 	public List<CommentDTO> getCommentsByPostId(@PathVariable Long postId) {
-		return commentservice.getCommentsByPostId(postId);
+		return commentservice.getCommentsByPostId(postId); // Returns list of comments
 	}
 
-	// Rest api Method to get comment by commentId
+//	=================================================================================================================================
+
+	// Get comment by commentId REST API
 	@Operation(
-			summary = "getCommentsById REST API",
-			description = "Fetch Comments from Database using Post Id and Comment Id"
+			summary = "getCommentsById REST API", // Swagger summary
+			description = "Fetch Comments from Database using Post Id and Comment Id" // Description of logic
 	)
 	@ApiResponse(
 			responseCode = "200",
-			description = "Http Status 200 SUCCESS"
+			description = "Http Status 200 SUCCESS" // Status indicating success
 	)
-	@GetMapping("/{postId}/comments/{commentId}")
+	@GetMapping("/{postId}/comments/{commentId}") // GET request for a specific comment under a specific post
 	public ResponseEntity<CommentDTO> getCommentsById(@PathVariable Long postId, @PathVariable Long commentId) {
-		return new ResponseEntity<>(commentservice.getCommentById(postId, commentId), HttpStatus.OK);
+		return new ResponseEntity<>(commentservice.getCommentById(postId, commentId), HttpStatus.OK); // Return comment with 200 status
 	}
 
-	// Rest api Method to update comment
+//	=================================================================================================================================
+
+	// Update comment REST API
 	@Operation(
-			summary = "updateComment REST API",
-			description = "Update Comments from Database using Post Id and Comment Id"
+			summary = "updateComment REST API", // Summary for Swagger UI
+			description = "Update Comments from Database using Post Id and Comment Id" // Explains functionality
 	)
 	@ApiResponse(
 			responseCode = "200",
-			description = "Http Status 200 SUCCESS"
+			description = "Http Status 200 SUCCESS" // Expected status
 	)
-	@SecurityRequirement(name = "Bear Authentication")
-	@PreAuthorize("hasRole('ADMIN')")
-	@PutMapping("/{postId}/comments/{commentId}")
+	@SecurityRequirement(name = "Bear Authentication") // JWT security required
+	@PreAuthorize("hasRole('ADMIN')") // Only ADMIN users can update comments
+	@PutMapping("/{postId}/comments/{commentId}") // PUT request to update a specific comment
 	public ResponseEntity<CommentDTO> updateComment(@PathVariable Long postId, @PathVariable Long commentId,
-			@Valid @RequestBody CommentDTO commentDTO) {
-		return new ResponseEntity<>(commentservice.updateComment(postId, commentId, commentDTO), HttpStatus.OK);
+													@Valid @RequestBody CommentDTO commentDTO) {
+		return new ResponseEntity<>(commentservice.updateComment(postId, commentId, commentDTO), HttpStatus.OK); // Returns updated comment
 	}
 
-	// Rest api Method to delete comment
+//	=================================================================================================================================
+
+	// Delete comment REST API
 	@Operation(
-			summary = "deleteComment REST API",
-			description = "Delete Comments from Database using Post Id and Comment Id"
+			summary = "deleteComment REST API", // Swagger documentation summary
+			description = "Delete Comments from Database using Post Id and Comment Id" // Description of endpoint
 	)
 	@ApiResponse(
 			responseCode = "200",
-			description = "Http Status 200 SUCCESS"
+			description = "Http Status 200 SUCCESS" // Indicates deletion success
 	)
-	@SecurityRequirement(name = "Bear Authentication")
-	@PreAuthorize("hasRole('ADMIN')")
-	@DeleteMapping("/{postId}/comments/{commentId}")
+	@SecurityRequirement(name = "Bear Authentication") // JWT token required
+	@PreAuthorize("hasRole('ADMIN')") // Only ADMIN role can delete comments
+	@DeleteMapping("/{postId}/comments/{commentId}") // DELETE request to remove a specific comment
 	public ResponseEntity<String> deleteComment(@PathVariable Long postId, @PathVariable Long commentId) {
-		commentservice.deleteComment(postId, commentId);
+		commentservice.deleteComment(postId, commentId); // Perform deletion
 		return new ResponseEntity<>("Comment deleted with postId " + postId + " and commentId " + commentId,
-				HttpStatus.OK);
+				HttpStatus.OK); // Return confirmation message
 	}
-
 }
